@@ -1,21 +1,25 @@
 # -*- coding: utf-8 -*-
+from pyquery import PyQuery as pq
+from selenium import webdriver
+from lxml import etree
+import time
 
-from selenium import selenium
 
-#sel = selenium('localhost', 4444, '*firefox', 'http://www.google.com.tw/')
-#sel = selenium('localhost', 4444, '*iexplore', 'http://www.google.com.tw/')
-sel = selenium('localhost', 4444, '*googlechrome', 'http://www.google.com.tw/')
+chrome_path = "C:\Users\P17179\PycharmProjects\Selenium\chromedriver.exe"
+web = webdriver.Chrome(chrome_path)
 
-sel.start()
-sel.window_focus()
-sel.window_maximize()
+web.get('https://www.pixnet.net/blog/articles/category/19/hot/2')
 
-sel.open('/')
-sel.wait_for_page_to_load(10000)
+#print web.page_source
+#res = pq(web.page_source)
 
-sel.type("//input[@id='lst-ib']", u'艾小克')
-sel.click("//input[@name='btnK']")
 
-assert u'瓶水相逢- 艾小克' == sel.get_text("xpath=(//h3[@class='r']/a)[1]"), 'not match'
+res = pq( 'https://www.pixnet.net/blog/articles/category/19/hot/2', encoding="utf-8")
 
-sel.stop()
+print res
+time.sleep(5)
+#print res('li.rank-11').find('h3').find('a').text()
+
+
+#web.find_element_by_link_text(u"下一頁").click()
+web.close()
